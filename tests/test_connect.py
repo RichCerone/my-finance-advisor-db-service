@@ -1,6 +1,6 @@
 import unittest
 
-from db_service.DbService import DbService, DbOptions
+from src.db_service.DbService import DbService, DbOptions
 from unittest.mock import Mock, patch
 
 class ConnectTests(unittest.TestCase):
@@ -11,7 +11,7 @@ class ConnectTests(unittest.TestCase):
         self.dbOptions = None
 
     # Assert that we can connect to the database.
-    @patch("db_service.DbService.CosmosClient")
+    @patch("src.db_service.DbService.CosmosClient")
     def test_connect_connects(self, mock_cosmos_client):
         dbService = DbService(self.dbOptions)
         
@@ -40,7 +40,7 @@ class ConnectTests(unittest.TestCase):
                 dbService.connect()                
     
     # Assert that an exception is thrown if the connection cannot be opened.
-    @patch("db_service.DbService.CosmosClient")    
+    @patch("src.db_service.DbService.CosmosClient")    
     def test_connect_cannot_open_connection(self, mock_cosmos_client):
         mock_cosmos_client.side_effect = Exception()
 
@@ -52,7 +52,7 @@ class ConnectTests(unittest.TestCase):
         mock_cosmos_client.assert_called_once()
     
     # Assert we throw an exception if we cannot get the db.
-    @patch("db_service.DbService.CosmosClient")    
+    @patch("src.db_service.DbService.CosmosClient")    
     def test_connect_cannot_get_db(self, mock_cosmos_client):
         mock_cosmos_client.return_value = mock_cosmos_client
 
@@ -69,7 +69,7 @@ class ConnectTests(unittest.TestCase):
         dbService.client.get_database_client.assert_called_once()
 
     # Assert we throw an exception if we cannot get the container.
-    @patch("db_service.DbService.CosmosClient")
+    @patch("src.db_service.DbService.CosmosClient")
     def test_connect_cannot_get_container(self, mock_cosmos_client):
         mock_cosmos_client.return_value = mock_cosmos_client
 

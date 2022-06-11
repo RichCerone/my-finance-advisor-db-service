@@ -1,7 +1,7 @@
 import json
 import logging as logger # TODO: Need a way to configure logging dynamically.
-from db_service.DbOptions import DbOptions
-from db_service.Query import Query
+from src.db_service.DbOptions import DbOptions
+from src.db_service.Query import Query
 
 from azure.cosmos import CosmosClient
 from azure.cosmos.exceptions import CosmosHttpResponseError, CosmosResourceNotFoundError

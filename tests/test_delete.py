@@ -1,6 +1,6 @@
 import unittest
 
-from db_service.DbService import DbService, DbOptions, CosmosResourceNotFoundError
+from src.db_service.DbService import DbService, DbOptions, CosmosResourceNotFoundError
 from unittest.mock import Mock
 
 class DeleteTests(unittest.TestCase):
