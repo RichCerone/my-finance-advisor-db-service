@@ -38,12 +38,4 @@ jobs:
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Test with unittest
       run: |
-        cd src/db_service
-        python -m unittest tests.test_connect
-        python -m unittest tests.test_get
-        python -m unittest tests.test_query
-        python -m unittest tests.test_upsert
-        python -m unittest tests.test_delete
-
-        cd tests
         python -m unittest tests.test_user
