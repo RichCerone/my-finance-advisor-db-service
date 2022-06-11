@@ -1,8 +1,8 @@
 import json
 import unittest
 
-from db_service.DbService import DbService, DbOptions, Query
-from mocks.User import User
+from src.db_service.DbService import DbService, DbOptions, Query
+from tests.mocks.User import User
 from unittest.mock import Mock
 
 class QueryTests(unittest.TestCase):
