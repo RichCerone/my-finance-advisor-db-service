@@ -7,10 +7,10 @@ from unittest.mock import Mock
 
 class QueryTests(unittest.TestCase):
     def setUp(self) -> None:
-       self.dbOptions = DbOptions("test_endpoint", "test_key", "test_db_id", "test_container_id")
+       self.db_options = DbOptions("test_endpoint", "test_key", "test_db_id", "test_container_id")
 
     def tearDown(self) -> None:
-        self.dbOptions = None
+        self.db_options = None
 
     # Asserts data is queried from the database.
     def test_query_queries_data(self):
@@ -21,14 +21,14 @@ class QueryTests(unittest.TestCase):
         mock_container = Mock()
         mock_container.query_items.return_value = userMocks
 
-        dbService = DbService(self.dbOptions)
-        dbService.container = mock_container
+        db_service = DbService(self.db_options)
+        db_service.container = mock_container
 
         with self.assertLogs(level="INFO"):
             query = Query(
-                queryStr="SELECT * FROM users"
+                query_str="SELECT * FROM users"
             )
-            result = dbService.query(query)
+            result = db_service.query(query)
 
         j = json.loads(result)
         users = list[User]()
@@ -40,12 +40,12 @@ class QueryTests(unittest.TestCase):
         # Test with where parameters.
         with self.assertLogs(level="INFO"):
             query = Query(
-                queryStr="SELECT * FROM users WHERE id = @id",
-                whereParams= {
+                query_str="SELECT * FROM users WHERE id = @id",
+                where_params= {
                     "@id": "user::test"
                 }
             )
-            result = dbService.query(query)
+            result = db_service.query(query)
 
         j = json.loads(result)
         users = list[User]()
@@ -56,43 +56,43 @@ class QueryTests(unittest.TestCase):
 
     # Assert a TypeError is raised if the query object given is invalid.
     def test_query_raises_type_error(self):
-        dbService = DbService(self.dbOptions)
+        db_service = DbService(self.db_options)
         with self.assertLogs(level="ERROR"):
             with self.assertRaises(TypeError):
-                dbService.query(None)
+                db_service.query(None)
             
     # Asserts None is returned if no items are found.
     def test_query_returns_none(self):
         mock_container = Mock()
         mock_container.query_items.return_value = list()
 
-        dbService = DbService(self.dbOptions)
-        dbService.container = mock_container
+        db_service = DbService(self.db_options)
+        db_service.container = mock_container
 
         with self.assertLogs(level="WARNING"):
             query = Query(
-                queryStr="SELECT * FROM users WHERE id = @id",
-                whereParams= {
+                query_str="SELECT * FROM users WHERE id = @id",
+                where_params= {
                     "@id": "user::test"
                 }
             )
-            result = dbService.query(query)
+            result = db_service.query(query)
 
         self.assertIsNone(result)
-        dbService.container.query_items.assert_called_once()
+        db_service.container.query_items.assert_called_once()
 
     # Assert a ValueError is raised if an empty query string is given.
     def test_query_raise_value_error_on_bad_query_string(self):
         with self.assertRaises(ValueError):
-            query = Query(
-                queryStr=" ",
+            Query(
+                query_str=" ",
             )
     
     # Assert Query class can build where parameters.
     def test_query_builds_where_params(self):
         query = Query(
-            queryStr="SELECT * FROM users WHERE id = @id",
-            whereParams= {
+            query_str="SELECT * FROM users WHERE id = @id",
+            where_params= {
                 "@id": "user::test"
             }
         )
