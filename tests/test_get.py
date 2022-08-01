@@ -15,9 +15,9 @@ class GetTests(unittest.TestCase):
 
     # Asserts an item can be retrieved.
     def test_get_gets_item(self):
-        userMock = User("test", "testing")
+        user_mock = User("test", "testing")
         mock_container = Mock()
-        mock_container.read_item.return_value = userMock.__dict__
+        mock_container.read_item.return_value = user_mock.__dict__
 
         db_service = DbService(self.db_options)
         db_service.container = mock_container
