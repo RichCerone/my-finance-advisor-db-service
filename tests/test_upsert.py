@@ -15,15 +15,15 @@ class UpsertTests(unittest.TestCase):
 
     # Asserts an item can be upserted.
     def test_upsert_upserts_item(self):
-        userMock = User("test", "testing")
+        user_mocks = User("test", "testing")
         mock_container = Mock()
-        mock_container.upsert_item.return_value = userMock.__dict__
+        mock_container.upsert_item.return_value = user_mocks.__dict__
 
         dbService = DbService(self.dbOptions)
         dbService.container = mock_container
 
         with self.assertLogs(level="INFO"):
-            result = dbService.upsert(userMock.__dict__)
+            result = dbService.upsert(user_mocks.__dict__)
 
         j = json.loads(result)
         user = User(**j)
@@ -42,7 +42,7 @@ class UpsertTests(unittest.TestCase):
 
     # Asserts an exception is raised if an unexpected error occurs.
     def test_upsert_raises_exception(self):
-        userMock = User("test", "testing")
+        user_mocks = User("test", "testing")
         mock_container = Mock()
         mock_container.upsert_item.side_effect = Exception
 
@@ -51,6 +51,6 @@ class UpsertTests(unittest.TestCase):
 
         with self.assertLogs(level="ERROR"):
             with self.assertRaises(Exception):
-                dbService.upsert(userMock.__dict__)
+                dbService.upsert(user_mocks.__dict__)
 
         dbService.container.upsert_item.assert_called_once()

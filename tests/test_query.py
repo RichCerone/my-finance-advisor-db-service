@@ -14,12 +14,12 @@ class QueryTests(unittest.TestCase):
 
     # Asserts data is queried from the database.
     def test_query_queries_data(self):
-        userMocks = [
+        user_mocks = [
             User("test1", "testing").__dict__,
             User("test2", "testing").__dict__
         ]
         mock_container = Mock()
-        mock_container.query_items.return_value = userMocks
+        mock_container.query_items.return_value = user_mocks
 
         db_service = DbService(self.db_options)
         db_service.container = mock_container
